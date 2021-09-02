@@ -6,9 +6,22 @@ const Button = ({ handleClick, text }) => (
 );
 
 // Statistics component
-// const Statistics = () => {
-//   return;
-// };
+const Statistics = ({ good, bad, neutral, total }) => {
+  // To display statistics only if feedback given
+  if (!total) {
+    return <p>No feedback given</p>;
+  }
+  return (
+    <div>
+      <p>good {good}</p>
+      <p>neutral {neutral}</p>
+      <p>bad {bad}</p>
+      <p>all {total}</p>
+      <p>average: {(good - bad) / total}</p>
+      <p>positive: {(good / total) * 100} %</p>
+    </div>
+  );
+};
 
 //main app component
 const App = () => {
@@ -40,12 +53,7 @@ const App = () => {
       <Button handleClick={clickNeutral} text="neutral" />
       <Button handleClick={clickBad} text="bad" />
       <h1>statistics</h1>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {total}</p>
-      <p>average: {(good - bad) / total}</p>
-      <p>positive: {(good / total) * 100} %</p>
+      <Statistics good={good} bad={bad} neutral={neutral} total={total} />
     </>
   );
 };
