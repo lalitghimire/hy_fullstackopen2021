@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 
 //button component with click event
-const Button = (props) => {
-  return <button onClick={props.handleClick}>{props.text}</button>;
-};
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>{text}</button>
+);
 
+// Statistics component
+// const Statistics = () => {
+//   return;
+// };
+
+//main app component
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0);
@@ -12,6 +18,7 @@ const App = () => {
   const [bad, setBad] = useState(0);
   const [total, setTotal] = useState(0);
 
+  // functions which increase value of good, bad, neutral and total
   const clickGood = () => {
     setGood(good + 1);
     setTotal(total + 1);
