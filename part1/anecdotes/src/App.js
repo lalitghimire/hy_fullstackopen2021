@@ -1,5 +1,20 @@
 import React, { useState } from "react";
 
+// Button component
+const Button = ({ task, label }) => {
+  return <button onClick={task}>{label}</button>;
+};
+
+//Display component
+const DisplayAnecdote = ({ nameAnecdote, voteAnecdote }) => {
+  return (
+    <div>
+      <p>{nameAnecdote} </p>
+      <p>has {voteAnecdote} votes</p>
+    </div>
+  );
+};
+
 const App = () => {
   const anecdotes = [
     "If it hurts, do it more often",
@@ -10,31 +25,48 @@ const App = () => {
     "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
     "Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients",
   ];
-
+  //use state hooks
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(new Array(7).fill(0));
 
-  //const randomnumber_between_min_max_inclusive = (min, max) => {
-  //return Math.floor(Math.random() * (max - min + 1)) + min;
-  //};
+  // function to generate random number
+  const randomNumGen = () => Math.floor(anecdotes.length * Math.random());
 
-  const newAnec = () => {
-    const ranAnec = Math.floor(anecdotes.length * Math.random());
-    if (selected !== ranAnec) {
-      return ranAnec;
-    }
-    return newAnec;
-  };
-
+  //function to select next random anecdote from the array of anecdotes
   const nextAnecdote = () => {
-    return setSelected(newAnec());
+    let randomNum = randomNumGen();
+    while (selected === randomNum) {
+      randomNum = randomNumGen();
+    }
+    setSelected(randomNum);
   };
+
+  // function to update vote count.
+  const voted = () => {
+    const copy = [...votes];
+    copy[selected] += 1;
+    setVotes(copy);
+  };
+
+  // to find index with most votes
+  const indexOfMaxVotes = votes.indexOf(Math.max(...votes));
 
   return (
     <div>
-      {anecdotes[selected]}
-      <div>
-        <button onClick={nextAnecdote}> next anecdote</button>
-      </div>
+      <h1>Anecdote of the day </h1>
+
+      <DisplayAnecdote
+        nameAnecdote={anecdotes[selected]}
+        voteAnecdote={votes[selected]}
+      />
+      <Button task={voted} label="vote" />
+      <Button task={nextAnecdote} label="next anecdote" />
+
+      <h1> Anecdote with most votes</h1>
+      <DisplayAnecdote
+        nameAnecdote={anecdotes[indexOfMaxVotes]}
+        voteAnecdote={votes[indexOfMaxVotes]}
+      />
     </div>
   );
 };
