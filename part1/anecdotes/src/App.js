@@ -13,7 +13,30 @@ const App = () => {
 
   const [selected, setSelected] = useState(0);
 
-  return <div>{anecdotes[selected]}</div>;
+  //const randomnumber_between_min_max_inclusive = (min, max) => {
+  //return Math.floor(Math.random() * (max - min + 1)) + min;
+  //};
+
+  const newAnec = () => {
+    const ranAnec = Math.floor(anecdotes.length * Math.random());
+    if (selected !== ranAnec) {
+      return ranAnec;
+    }
+    return newAnec;
+  };
+
+  const nextAnecdote = () => {
+    return setSelected(newAnec());
+  };
+
+  return (
+    <div>
+      {anecdotes[selected]}
+      <div>
+        <button onClick={nextAnecdote}> next anecdote</button>
+      </div>
+    </div>
+  );
 };
 
 export default App;
