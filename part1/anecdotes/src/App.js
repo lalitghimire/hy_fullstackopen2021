@@ -41,8 +41,8 @@ const App = () => {
     setSelected(randomNum);
   };
 
-  // function to update vote count.
-  const voted = () => {
+  // function to update vote counts.
+  const voting = () => {
     const copy = [...votes];
     copy[selected] += 1;
     setVotes(copy);
@@ -54,12 +54,12 @@ const App = () => {
   return (
     <div>
       <h1>Anecdote of the day </h1>
-
       <DisplayAnecdote
         nameAnecdote={anecdotes[selected]}
         voteAnecdote={votes[selected]}
       />
-      <Button task={voted} label="vote" />
+
+      <Button task={voting} label="vote" />
       <Button task={nextAnecdote} label="next anecdote" />
 
       <h1> Anecdote with most votes</h1>
