@@ -1,21 +1,21 @@
 import React from "react";
 
 //Header component
-const Header = (props) => {
-  return <h1> {props.course} </h1>;
+const Header = ({ courseName }) => {
+  return <h1> {courseName} </h1>;
 };
 
 // Part component
-const Part = (props) => {
+const Part = ({ part, exercise }) => {
   return (
     <p>
-      {props.part} {props.exercise}
+      {part} {exercise}
     </p>
   );
 };
 
 //Content component
-const Content = (props) => {
+const Content = ({ parts }) => {
   //console.log(props);
   //console.log(props);
   //console.log(props.parts);
@@ -23,20 +23,20 @@ const Content = (props) => {
   //console.log(temp);
   return (
     <div>
-      {props.parts.map((x) => (
-        <Part key={x.id} part={x.name} exercise={x.exercises} />
+      {parts.map((part) => (
+        <Part key={part.id} part={part.name} exercise={part.exercises} />
       ))}
     </div>
   );
 };
 
 //Course component
-const Course = (props) => {
-  console.log(props);
+const Course = ({ course }) => {
+  console.log(course);
   return (
     <div>
-      <Header course={props.course.name} />
-      <Content parts={props.course.parts} />
+      <Header courseName={course.name} />
+      <Content parts={course.parts} />
     </div>
   );
 };
