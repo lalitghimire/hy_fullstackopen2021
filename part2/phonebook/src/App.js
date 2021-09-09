@@ -9,12 +9,19 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
     console.log("button clicked", event.target);
+
+    if (persons.find((x) => x.name === newName)) {
+      window.alert(`${newName} is already added to phonebook`);
+      return;
+    }
+
     const personObject = {
       name: newName,
     };
     // do not mutate state
     // rather copy and update the variable
     // concat creates new copy of the array with new item added to end
+
     setPersons(persons.concat(personObject));
     //reset the value of newName state
     setNewName("");
@@ -24,6 +31,7 @@ const App = () => {
   // set new name(eventhandler function)
   const handlePersonadd = (event) => {
     //console.log(event.target.value);
+
     setNewName(event.target.value);
   };
 
