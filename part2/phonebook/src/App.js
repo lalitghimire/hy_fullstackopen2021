@@ -10,7 +10,14 @@ const App = () => {
     event.preventDefault();
     console.log("button clicked", event.target);
 
-    if (persons.find((x) => x.name === newName)) {
+    //using find method of array
+    // if (persons.find((x) => x.name === newName)) {
+    //   window.alert(`${newName} is already added to phonebook`);
+    //   return;
+    // }
+
+    //using filter method (note to self: return will end function execution)
+    if (persons.filter((person) => person.name === newName).length > 0) {
       window.alert(`${newName} is already added to phonebook`);
       return;
     }
@@ -31,7 +38,6 @@ const App = () => {
   // set new name(eventhandler function)
   const handlePersonadd = (event) => {
     //console.log(event.target.value);
-
     setNewName(event.target.value);
   };
 
@@ -42,14 +48,15 @@ const App = () => {
         <div>
           name: <input value={newName} onChange={handlePersonadd} />
         </div>
+
         <div>
           <button type="submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
 
-      {persons.map((x) => (
-        <p key={x.name}>{x.name}</p>
+      {persons.map((person) => (
+        <p key={person.name}>{person.name}</p>
       ))}
     </div>
   );
