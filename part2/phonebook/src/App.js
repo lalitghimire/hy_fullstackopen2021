@@ -4,10 +4,6 @@ const App = () => {
   // variables with initial states
   const [persons, setPersons] = useState([
     { name: "Arto Hellas", number: 400940000 },
-    { name: "Bishop Arthur", number: 409000002 },
-    { name: "Robert Wang", number: 409000003 },
-    { name: "Emma Right", number: 409000004 },
-    { name: "Ella Williams", number: 409000005 },
   ]);
   const [newName, setNewName] = useState("type name");
   const [newNumber, setNewNumber] = useState(111111111);
