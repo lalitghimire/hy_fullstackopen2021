@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+import Filter from "./components/Filter";
+import PersonForm from "./components/PersonForm";
+import Persons from "./components/Persons";
 
 const App = () => {
   // variables with initial states
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: 400940000 },
-  ]);
-  const [newName, setNewName] = useState("type name");
-  const [newNumber, setNewNumber] = useState(111111111);
+  const [persons, setPersons] = useState([]);
+  const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
   const [filteredName, setFilteredNames] = useState("");
 
   // function to add a person to the persons(eventhandler)
@@ -14,12 +15,6 @@ const App = () => {
     event.preventDefault();
     console.log("button clicked", event.target);
 
-    //using find method of array
-    // if (persons.find((x) => x.name === newName)) {
-    //   window.alert(`${newName} is already added to phonebook`);
-    //   return;
-    // }
-    //using filter method. if found duplicate filtered array will have items (note to self: return will end function execution)
     if (persons.filter((person) => person.name === newName).length > 0) {
       window.alert(`${newName} is already added to phonebook`);
       return;
@@ -29,9 +24,6 @@ const App = () => {
       name: newName,
       number: newNumber,
     };
-    // do not mutate state
-    // rather copy and update the variable
-    // concat creates new copy of the array with new item added to end
 
     setPersons(persons.concat(personObject));
     //reset the value of newName state
@@ -41,53 +33,34 @@ const App = () => {
 
   // function which occur when form input changes
   // set new name(eventhandler function)
-  const handlePersonadd = (event) => {
-    //console.log(event.target.value);
+  const handlePersonAdd = (event) => {
     setNewName(event.target.value);
   };
-
-  const handleNumberadd = (event) => {
+  // set new name(eventhandler function)
+  const handleNumberAdd = (event) => {
     setNewNumber(event.target.value);
   };
-
+  // set filterednames(eventhandler function)
   const handleFilteredName = (event) => {
-    console.log(event.target.value);
     setFilteredNames(event.target.value);
   };
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <Filter inputName={filteredName} onChange={handleFilteredName} />
 
-      <div>
-        filter shown with{" "}
-        <input value={filteredName} onChange={handleFilteredName} />
-        {console.log(filteredName)}
-      </div>
+      <h3>add a new</h3>
+      <PersonForm
+        onSubmit={addPerson}
+        newName={newName}
+        handleNewPerson={handlePersonAdd}
+        newNumber={newNumber}
+        handleNewNumber={handleNumberAdd}
+      />
 
-      <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handlePersonadd} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberadd} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-
-      {persons
-        .filter((person) =>
-          person.name.toLowerCase().includes(filteredName.toLowerCase())
-        )
-        .map((filteredPerson) => (
-          <p key={filteredPerson.name}>
-            {filteredPerson.name} {filteredPerson.number}
-          </p>
-        ))}
+      <h3>Numbers</h3>
+      <Persons persons={persons} filteredName={filteredName} />
     </div>
   );
 };
