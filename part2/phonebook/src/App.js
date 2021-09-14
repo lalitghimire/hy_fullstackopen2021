@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
@@ -26,7 +27,7 @@ const App = () => {
     };
 
     setPersons(persons.concat(personObject));
-    //reset the value of newName state
+    //reset the value of states
     setNewName("");
     setNewNumber("");
   };
@@ -44,6 +45,15 @@ const App = () => {
   const handleFilteredName = (event) => {
     setFilteredNames(event.target.value);
   };
+
+  //fetching data from a json server
+  useEffect(() => {
+    console.log("effect");
+    axios.get("http://localhost:3001/persons").then((response) => {
+      console.log("promise fulfilled");
+      setPersons(response.data);
+    });
+  }, []);
 
   return (
     <div>
