@@ -11,6 +11,15 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filteredName, setFilteredNames] = useState("");
 
+  //fetching data from a json server(db.json)
+  useEffect(() => {
+    console.log("effect");
+    axios.get("http://localhost:3001/persons").then((response) => {
+      console.log("promise fulfilled");
+      setPersons(response.data);
+    });
+  }, []);
+
   // function to add a person to the persons(eventhandler)
   const addPerson = (event) => {
     event.preventDefault();
@@ -45,15 +54,6 @@ const App = () => {
   const handleFilteredName = (event) => {
     setFilteredNames(event.target.value);
   };
-
-  //fetching data from a json server
-  useEffect(() => {
-    console.log("effect");
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("promise fulfilled");
-      setPersons(response.data);
-    });
-  }, []);
 
   return (
     <div>
