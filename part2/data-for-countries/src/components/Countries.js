@@ -56,6 +56,7 @@ const CountryDetail = ({ country }) => {
   );
 };
 
+// Countries component
 const Countries = ({ countriesList, searchName, setSearchName }) => {
   const showDetail = (country) => {
     setSearchName(country.name);
