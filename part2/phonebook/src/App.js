@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import personService from "./services/persons";
 
 const App = () => {
   // variables with initial states
@@ -11,38 +11,47 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filteredName, setFilteredNames] = useState("");
 
-  //fetching data from a json server(db.json)
+  //fetching persons from a json server(db.json) using personService
   useEffect(() => {
-    console.log("effect");
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("promise fulfilled");
-      setPersons(response.data);
+    personService.getAll().then((initialList) => {
+      setPersons(initialList);
     });
   }, []);
 
-  // function to add a person to the persons(eventhandler)
+  // function to add a person to the persons
   const addPerson = (event) => {
     event.preventDefault();
-    console.log("button clicked", event.target);
-
     if (persons.filter((person) => person.name === newName).length > 0) {
       window.alert(`${newName} is already added to phonebook`);
       return;
     }
-
     const personObject = {
       name: newName,
       number: newNumber,
     };
+    //create new person using personService
+    personService.create(personObject).then((returnedObject) => {
+      setPersons(persons.concat(returnedObject));
+      setNewName("");
+      setNewNumber("");
+    });
+  };
 
-    axios
-      .post("http://localhost:3001/persons", personObject)
-      .then((response) => {
-        setPersons(persons.concat(response.data));
-        //reset the value of states
-        setNewName("");
-        setNewNumber("");
-      });
+  //function to delete a person
+  const deletePerson = (id) => {
+    const deletePersonName = persons
+      .filter((person) => person.id === id)
+      .map((person) => person.name);
+    // confirm with window.confirm
+    const confirm = window.confirm(`Do you want to delete ${deletePersonName}`);
+
+    // delete the item in database using personService.deleteOne
+    if (confirm) {
+      const updatedList = { ...persons };
+      personService
+        .deleteOne(id, updatedList)
+        .then(setPersons(persons.filter((p) => p.id !== id)));
+    }
   };
 
   // function which occur when form input changes
@@ -74,7 +83,11 @@ const App = () => {
       />
 
       <h3>Numbers</h3>
-      <Persons persons={persons} filteredName={filteredName} />
+      <Persons
+        persons={persons}
+        filteredName={filteredName}
+        deletePerson={deletePerson}
+      />
     </div>
   );
 };
