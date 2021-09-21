@@ -11,7 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filteredName, setFilteredNames] = useState("");
 
-  //fetching persons from a json server(db.json) using personService
+  //fetching persons from a json server(db.json)
   useEffect(() => {
     personService.getAll().then((initialList) => {
       setPersons(initialList);
@@ -22,14 +22,34 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
     if (persons.filter((person) => person.name === newName).length > 0) {
-      window.alert(`${newName} is already added to phonebook`);
+      const confirmUpdate = window.confirm(
+        `${newName} is already added to phonebook ,replace the old number with a new one?`
+      );
+      if (confirmUpdate) {
+        const toBeEditedPerson = persons.find(
+          (person) => person.name === newName
+        );
+        const editedPerson = { ...toBeEditedPerson, number: newNumber };
+
+        personService
+          .update(toBeEditedPerson.id, editedPerson)
+          .then((returnedObject) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== toBeEditedPerson.id ? person : returnedObject
+              )
+            );
+            setNewName("");
+            setNewNumber("");
+          });
+      }
+
       return;
     }
     const personObject = {
       name: newName,
       number: newNumber,
     };
-    //create new person using personService
     personService.create(personObject).then((returnedObject) => {
       setPersons(persons.concat(returnedObject));
       setNewName("");
@@ -45,7 +65,7 @@ const App = () => {
     // confirm with window.confirm
     const confirm = window.confirm(`Do you want to delete ${deletePersonName}`);
 
-    // delete the item in database using personService.deleteOne
+    // delete the item in database with id
     if (confirm) {
       const updatedList = { ...persons };
       personService
