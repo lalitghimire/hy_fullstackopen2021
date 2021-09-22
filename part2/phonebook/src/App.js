@@ -3,6 +3,7 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import personService from "./services/persons";
+import Notification from "./components/Notification";
 
 const App = () => {
   // variables with initial states
@@ -10,6 +11,8 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filteredName, setFilteredNames] = useState("");
+  const [notification, setNotification] = useState(null);
+  const [notificationType, setNotificationType] = useState("");
 
   //fetching persons from a json server(db.json)
   useEffect(() => {
@@ -39,8 +42,22 @@ const App = () => {
                 person.id !== toBeEditedPerson.id ? person : returnedObject
               )
             );
+
+            setNotification(`${newName} has been edited`);
+            setNotificationType("notify");
+            setTimeout(() => {
+              setNotification(null);
+            }, 5000);
             setNewName("");
             setNewNumber("");
+          })
+          .catch((error) => {
+            setNotificationType("warning");
+            setNotification(`${newName} already removed from server`);
+            setTimeout(() => {
+              setNotification(null);
+              setNotificationType("");
+            }, 5000);
           });
       }
 
@@ -52,6 +69,12 @@ const App = () => {
     };
     personService.create(personObject).then((returnedObject) => {
       setPersons(persons.concat(returnedObject));
+      setNotificationType("notify");
+      setNotification(`${newName} was added`);
+      setTimeout(() => {
+        setNotification(null);
+        setNotificationType("");
+      }, 5000);
       setNewName("");
       setNewNumber("");
     });
@@ -71,6 +94,12 @@ const App = () => {
       personService
         .deleteOne(id, updatedList)
         .then(setPersons(persons.filter((p) => p.id !== id)));
+      setNotificationType("warning");
+      setNotification(`${deletePersonName} was deleted`);
+      setTimeout(() => {
+        setNotification(null);
+        setNotificationType("");
+      }, 5000);
     }
   };
 
@@ -91,6 +120,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification className={notificationType} message={notification} />
       <Filter inputName={filteredName} onChange={handleFilteredName} />
 
       <h3>add a new</h3>
