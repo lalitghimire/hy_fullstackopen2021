@@ -57,14 +57,14 @@ app.get("/api/persons/:id", (req, res) => {
   }
 });
 
-// delete entry
+// route delete entry using delte
 app.delete("/api/persons/:id", (req, res) => {
   const id = Number(req.params.id);
   persons = persons.filter((person) => person.id !== id);
   res.status(204).end;
 });
 
-// add new entry
+// route add new entry using post
 app.post("/api/persons", (req, res) => {
   const body = req.body;
 
@@ -88,8 +88,8 @@ app.post("/api/persons", (req, res) => {
   res.send(person);
 });
 
+// create server
 const PORT = 3001;
-
 app.listen(PORT, () => {
   console.log(`server is running at port ${PORT}`);
 });
