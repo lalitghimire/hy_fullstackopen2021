@@ -62,7 +62,6 @@ describe('total likes', () => {
             __v: 0,
         },
     ]
-    const empty = []
 
     test('when list has only one blog equals the likes of that', () => {
         const result = listHelper.totalLikes(listWithOneBlog)
@@ -73,8 +72,26 @@ describe('total likes', () => {
         const result = listHelper.totalLikes(blogs)
         expect(result).toBe(36)
     })
+
+    const empty = []
     test('empty blog list', () => {
         const result = listHelper.totalLikes(empty)
         expect(result).toBe(0)
+    })
+})
+
+describe('favoriteBlog', () => {
+    test('when list is of more than one blog', () => {
+        const result = listHelper.favoriteBlog(blogs)
+        expect(result).toEqual([
+            {
+                _id: '5a422b3a1b54a676234d17f9',
+                title: 'Canonical string reduction',
+                author: 'Edsger W. Dijkstra',
+                url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+                likes: 12,
+                __v: 0,
+            },
+        ])
     })
 })
