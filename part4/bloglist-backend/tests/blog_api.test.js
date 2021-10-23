@@ -20,7 +20,7 @@ const initialBlogs = [
         likes: 5,
     },
 ]
-
+//Initializing the database before tests
 beforeEach(async () => {
     await Blog.deleteMany({})
     let blogObject = new Blog(initialBlogs[0])
@@ -29,6 +29,7 @@ beforeEach(async () => {
     await blogObject.save()
 })
 
+//test to check blogs in json
 test('blogs are returned as json', async () => {
     await api
         .get('/api/blogs')
@@ -36,11 +37,20 @@ test('blogs are returned as json', async () => {
         .expect('Content-Type', /application\/json/)
 })
 
+// test that all blogs are sent as response
 test('all blogs returned', async () => {
     const res = await api.get('/api/blogs')
     expect(res.body).toHaveLength(2)
 })
+// test that verifies unique identifier property of the blog posts is named id
+test('id is an identifier', async () => {
+    const res = await api.get('/api/blogs')
+    expect(res.body.map((x) => x.id)).toBeDefined()
+    // expect(res.body[0].id).toBeDefined()
+    // expect(res.body[1].id).toBeDefined()
+})
 
+//close the database connection
 afterAll(() => {
     mongoose.connection.close()
 })
