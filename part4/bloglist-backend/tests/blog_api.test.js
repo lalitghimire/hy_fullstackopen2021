@@ -42,6 +42,7 @@ test('all blogs returned', async () => {
     const res = await api.get('/api/blogs')
     expect(res.body).toHaveLength(2)
 })
+
 // test that verifies unique identifier property of the blog posts is named id
 test('id is an identifier', async () => {
     const res = await api.get('/api/blogs')
@@ -50,7 +51,7 @@ test('id is an identifier', async () => {
     // expect(res.body[1].id).toBeDefined()
 })
 
-// test to verify new blog post
+// test to verify new blog post is saved
 test('blog post is added', async () => {
     const newBlog = {
         id: '5a422bc61b54a676234d17fc',
@@ -64,7 +65,7 @@ test('blog post is added', async () => {
     expect(res.body).toHaveLength(initialBlogs.length + 1)
 })
 
-// test for blog with missing likes and test for default value
+// test for blog with missing likes and test for default value to be zero
 test('blog post is added without likes', async () => {
     const newBlog = {
         id: '5a422bc61b54a676234d17fc',
