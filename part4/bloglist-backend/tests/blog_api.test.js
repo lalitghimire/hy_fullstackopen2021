@@ -50,6 +50,43 @@ test('id is an identifier', async () => {
     // expect(res.body[1].id).toBeDefined()
 })
 
+// test to verify new blog post
+test('blog post is added', async () => {
+    const newBlog = {
+        id: '5a422bc61b54a676234d17fc',
+        title: 'Type wars',
+        author: 'Robert C. Martin',
+        url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
+        likes: 2,
+    }
+    await api.post('/api/blogs').send(newBlog).expect(200)
+    const res = await api.get('/api/blogs')
+    expect(res.body).toHaveLength(initialBlogs.length + 1)
+})
+
+// test for blog with missing likes and test for default value
+test('blog post is added without likes', async () => {
+    const newBlog = {
+        id: '5a422bc61b54a676234d17fc',
+        title: 'Type wars',
+        author: 'Robert C. Martin',
+        url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
+    }
+    await api.post('/api/blogs').send(newBlog).expect(200)
+    const res = await api.get('/api/blogs')
+    expect(res.body[2].likes).toBe(0)
+})
+
+// test for blog with missing title and url and response as bad request
+test('blog post missing title and url', async () => {
+    const newBlog = {
+        id: '5a422bc61b54a676234d17fc',
+        author: 'Robert C. Martin',
+        likes: 5,
+    }
+    await api.post('/api/blogs').send(newBlog).expect(400)
+})
+
 //close the database connection
 afterAll(() => {
     mongoose.connection.close()
