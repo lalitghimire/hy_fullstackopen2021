@@ -28,63 +28,67 @@ beforeEach(async () => {
     await Promise.all(promiseArray)
 })
 
-//test to check blogs in json
-test('blogs are returned as json', async () => {
-    await api
-        .get('/api/blogs')
-        .expect(200)
-        .expect('Content-Type', /application\/json/)
+describe('when getting and testing initial blogs', () => {
+    //test to check blogs in json
+    test('blogs are returned as json', async () => {
+        await api
+            .get('/api/blogs')
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+    })
+
+    // test that all blogs are sent as response
+    test('all blogs returned', async () => {
+        const res = await api.get('/api/blogs')
+        expect(res.body).toHaveLength(2)
+    })
+
+    // test that verifies unique identifier property of the blog posts is named id
+    test('id is an identifier', async () => {
+        const res = await api.get('/api/blogs')
+        expect(res.body.map((x) => x.id)).toBeDefined()
+        // expect(res.body[0].id).toBeDefined()
+        // expect(res.body[1].id).toBeDefined()
+    })
 })
 
-// test that all blogs are sent as response
-test('all blogs returned', async () => {
-    const res = await api.get('/api/blogs')
-    expect(res.body).toHaveLength(2)
-})
+describe('when posting a new blog', () => {
+    // test to verify new blog post is saved
+    test('blog post is added', async () => {
+        const newBlog = {
+            id: '5a422bc61b54a676234d17fc',
+            title: 'Type wars',
+            author: 'Robert C. Martin',
+            url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
+            likes: 2,
+        }
+        await api.post('/api/blogs').send(newBlog).expect(200)
+        const res = await api.get('/api/blogs')
+        expect(res.body).toHaveLength(initialBlogs.length + 1)
+    })
 
-// test that verifies unique identifier property of the blog posts is named id
-test('id is an identifier', async () => {
-    const res = await api.get('/api/blogs')
-    expect(res.body.map((x) => x.id)).toBeDefined()
-    // expect(res.body[0].id).toBeDefined()
-    // expect(res.body[1].id).toBeDefined()
-})
+    // test for blog with missing likes and test for default value to be zero
+    test('blog post is added without likes', async () => {
+        const newBlog = {
+            id: '5a422bc61b54a676234d17fc',
+            title: 'Type wars',
+            author: 'Robert C. Martin',
+            url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
+        }
+        await api.post('/api/blogs').send(newBlog).expect(200)
+        const res = await api.get('/api/blogs')
+        expect(res.body[2].likes).toBe(0)
+    })
 
-// test to verify new blog post is saved
-test('blog post is added', async () => {
-    const newBlog = {
-        id: '5a422bc61b54a676234d17fc',
-        title: 'Type wars',
-        author: 'Robert C. Martin',
-        url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
-        likes: 2,
-    }
-    await api.post('/api/blogs').send(newBlog).expect(200)
-    const res = await api.get('/api/blogs')
-    expect(res.body).toHaveLength(initialBlogs.length + 1)
-})
-
-// test for blog with missing likes and test for default value to be zero
-test('blog post is added without likes', async () => {
-    const newBlog = {
-        id: '5a422bc61b54a676234d17fc',
-        title: 'Type wars',
-        author: 'Robert C. Martin',
-        url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
-    }
-    await api.post('/api/blogs').send(newBlog).expect(200)
-    const res = await api.get('/api/blogs')
-    expect(res.body[2].likes).toBe(0)
-})
-
-// test for blog with missing title and url and response as bad request
-test('blog post missing title and url', async () => {
-    const newBlog = {
-        id: '5a422bc61b54a676234d17fc',
-        author: 'Robert C. Martin',
-        likes: 5,
-    }
-    await api.post('/api/blogs').send(newBlog).expect(400)
+    // test for blog with missing title and url and response as bad request
+    test('blog post missing title and url', async () => {
+        const newBlog = {
+            id: '5a422bc61b54a676234d17fc',
+            author: 'Robert C. Martin',
+            likes: 5,
+        }
+        await api.post('/api/blogs').send(newBlog).expect(400)
+    })
 })
 
 //close the database connection
