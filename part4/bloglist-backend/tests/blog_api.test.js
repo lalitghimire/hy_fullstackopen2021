@@ -23,10 +23,9 @@ const initialBlogs = [
 //Initializing the database before tests
 beforeEach(async () => {
     await Blog.deleteMany({})
-    let blogObject = new Blog(initialBlogs[0])
-    await blogObject.save()
-    blogObject = new Blog(initialBlogs[1])
-    await blogObject.save()
+    let blogObjects = initialBlogs.map((blog) => new Blog(blog))
+    const promiseArray = blogObjects.map((blog) => blog.save())
+    await Promise.all(promiseArray)
 })
 
 //test to check blogs in json
