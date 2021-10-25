@@ -31,7 +31,7 @@ blogRouter.delete('/:id', async (req, res, next) => {
 
 // route to update a post with changed parameter
 blogRouter.put('/:id', async (req, res, next) => {
-    const blog = req.body
+    const body = req.body
     const blog = {
         title: body.title,
         author: body.author,
