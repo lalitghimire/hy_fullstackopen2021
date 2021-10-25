@@ -91,6 +91,21 @@ describe('when posting a new blog', () => {
     })
 })
 
+// test for deletion of a blog entry
+describe('deletion of a blog post', () => {
+    test('deletion success with status code 204 ', async () => {
+        // first get the blogs stored in database
+
+        const storedBlogs = await Blog.find({})
+        const blogToDelete = storedBlogs[0]
+
+        await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
+
+        const blogsAfterDeletion = await Blog.find({})
+        expect(blogsAfterDeletion.length).toBe(storedBlogs.length - 1)
+    })
+})
+
 //close the database connection
 afterAll(() => {
     mongoose.connection.close()
