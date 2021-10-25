@@ -106,6 +106,25 @@ describe('deletion of a blog post', () => {
     })
 })
 
+// test for update of a blog entry
+describe('update a blog post', () => {
+    test('update of blog post is sucessful and number of likes edited', async () => {
+        // first get the blogs stored in database
+
+        const storedBlogs = await Blog.find({})
+        const blogToEdit = storedBlogs[0]
+        const editedBlog = { ...blogToEdit, likes: 152 }
+
+        await api
+            .put(`/api/blogs/${blogToEdit.id}`)
+            .send(editedBlog)
+            .expect(200)
+
+        const blogsAfterEdit = await Blog.find({})
+        expect(blogsAfterEdit[0].likes).toBe(152)
+    })
+})
+
 //close the database connection
 afterAll(() => {
     mongoose.connection.close()
