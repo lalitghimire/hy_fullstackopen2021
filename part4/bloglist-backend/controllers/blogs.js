@@ -1,20 +1,35 @@
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 // route to get all blogs
 blogRouter.get('/', async (req, res) => {
-    const blogs = await Blog.find({})
+    const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
     res.json(blogs.map((blog) => blog.toJSON()))
 })
 
 // route to post a new blog
 blogRouter.post('/', async (req, res, next) => {
-    const blog = new Blog(req.body)
+    const body = req.body
+    console.log('body', body)
+    const user = await User.findById(body.userId)
+    console.log('here is the found user', user._id)
+
+    const blog = new Blog({
+        title: body.title,
+        author: body.author,
+        url: body.url,
+        likes: body.likes,
+        user: user._id,
+    })
 
     try {
         const savedBlog = await blog.save()
-        res.json(savedBlog.toJSON())
+        user.blogs.push(savedBlog._id)
+        await user.save()
+        res.json(savedBlog)
     } catch (exception) {
+        console.log('reached here', exception)
         next(exception)
     }
 })
