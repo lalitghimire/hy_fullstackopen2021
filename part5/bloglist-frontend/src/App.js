@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification'
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
@@ -35,6 +36,7 @@ const App = () => {
     return (
         <div>
             <h1>blogs</h1>
+            <Notification message={errorMessage} />
             <form onSubmit={handleLogin}>
                 <div>
                     username
