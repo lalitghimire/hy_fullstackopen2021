@@ -2,6 +2,10 @@ h1 {
     color: purple;
     font-style: italic;
 }
+h2 {
+    color: rgb(0, 128, 75);
+    font-style: italic;
+}
 
 .error {
     color: red;
