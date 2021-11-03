@@ -64,7 +64,8 @@ const App = () => {
         <div>
             <h1>blogs</h1>
             <Notification message={errorMessage} />
-            {loginForm()}
+            {user == null && loginForm()}
+            {user != null && <h2> {user.name} is logged in </h2>}
             {blogs.map((blog) => (
                 <Blog key={blog.id} blog={blog} />
             ))}
