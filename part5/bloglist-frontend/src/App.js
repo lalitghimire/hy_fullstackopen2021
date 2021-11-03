@@ -71,7 +71,10 @@ const App = () => {
                 ) : (
                     <div>
                         {' '}
-                        <h2> {user.name} is logged in </h2>
+                        <h2>
+                            {' '}
+                            {user.name} is logged in <button>logout</button>
+                        </h2>{' '}
                         {blogs
                             .filter(
                                 (blog) => blog.user.username === user.username
