@@ -66,9 +66,10 @@ const App = () => {
             <Notification message={errorMessage} />
             {user == null && loginForm()}
             {user != null && <h2> {user.name} is logged in </h2>}
-            {blogs.map((blog) => (
-                <Blog key={blog.id} blog={blog} />
-            ))}
+            {user != null &&
+                blogs
+                    .filter((blog) => blog.user.username === user.username)
+                    .map((blog) => <Blog key={blog.id} blog={blog} />)}
         </div>
     )
 }
