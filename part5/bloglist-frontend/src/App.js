@@ -38,6 +38,7 @@ const App = () => {
     // login form generator
     const loginForm = () => (
         <form onSubmit={handleLogin}>
+            <h2>Log in to the application</h2>
             <div>
                 username
                 <input
@@ -64,12 +65,30 @@ const App = () => {
         <div>
             <h1>blogs</h1>
             <Notification message={errorMessage} />
-            {user == null && loginForm()}
+            {
+                user === null ? (
+                    loginForm()
+                ) : (
+                    <div>
+                        {' '}
+                        <h2> {user.name} is logged in </h2>
+                        {blogs
+                            .filter(
+                                (blog) => blog.user.username === user.username
+                            )
+                            .map((blog) => (
+                                <Blog key={blog.id} blog={blog} />
+                            ))}
+                    </div>
+                )
+
+                /* {user == null && loginForm()}
             {user != null && <h2> {user.name} is logged in </h2>}
             {user != null &&
                 blogs
                     .filter((blog) => blog.user.username === user.username)
-                    .map((blog) => <Blog key={blog.id} blog={blog} />)}
+                    .map((blog) => <Blog key={blog.id} blog={blog} />)} */
+            }
         </div>
     )
 }
