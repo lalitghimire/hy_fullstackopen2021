@@ -83,6 +83,24 @@ const App = () => {
         </form>
     )
 
+    // form to create a new blog
+    const newBlogForm = () => (
+        <form>
+            <h3> Create a new blog</h3>
+            <div>
+                title <input type='text' />
+            </div>
+            <div>
+                author <input type='text' />
+            </div>
+            <div>
+                url
+                <input type='text' />
+            </div>
+            <button type='submit'>Create</button>
+        </form>
+    )
+
     return (
         <div>
             <h1>blogs</h1>
@@ -98,6 +116,8 @@ const App = () => {
                             {user.name} is logged in{' '}
                             <button onClick={logout}>logout</button>
                         </h2>{' '}
+                        {newBlogForm()}
+                        <h3>Blogs for the logged user</h3>
                         {blogs
                             .filter(
                                 (blog) => blog.user.username === user.username
