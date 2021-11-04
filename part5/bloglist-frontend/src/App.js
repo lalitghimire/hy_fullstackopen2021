@@ -16,6 +16,19 @@ const App = () => {
         blogService.getAll().then((blogs) => setBlogs(blogs))
     }, [])
 
+    //the application checks if user details of a logged-in user
+    //can already be found on the local storage.
+    //If they can, the details are saved to the state of the application
+
+    useEffect(() => {
+        const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
+        if (loggedUserJSON) {
+            const user = JSON.parse(loggedUserJSON)
+            setUser(user)
+            blogService.setToken(user.token)
+        }
+    }, [])
+
     //handle the login process and check credentials validity
     const handleLogin = async (event) => {
         event.preventDefault()
@@ -23,16 +36,25 @@ const App = () => {
 
         try {
             const user = await loginService.login({ username, password })
-            setUser(user)
+            // keep a user logged in
+            window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
 
+            setUser(user)
             setUsername('')
             setPassword('')
         } catch (exception) {
-            setErrorMessage('Wrong credentials')
+            setErrorMessage('Wrong credentials provided')
             setTimeout(() => {
                 setErrorMessage(null)
             }, 5000)
         }
+    }
+    // logout
+    const logout = () => {
+        window.localStorage.clear()
+        setUser(null)
+        setUsername('')
+        setPassword('')
     }
 
     // login form generator
@@ -73,7 +95,8 @@ const App = () => {
                         {' '}
                         <h2>
                             {' '}
-                            {user.name} is logged in <button>logout</button>
+                            {user.name} is logged in{' '}
+                            <button onClick={logout}>logout</button>
                         </h2>{' '}
                         {blogs
                             .filter(
