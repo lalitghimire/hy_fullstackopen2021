@@ -10,6 +10,13 @@ const App = () => {
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
     const [errorMessage, setErrorMessage] = useState(null)
+    const [notification, setNotification] = useState(null)
+    const [type, setType] = useState('')
+
+    // new blog
+    const [newTitle, setNewTitle] = useState('')
+    const [newAuthor, setNewAuthor] = useState('')
+    const [newUrl, setNewUrl] = useState('')
 
     // fetch the blogs
     useEffect(() => {
@@ -36,19 +43,49 @@ const App = () => {
 
         try {
             const user = await loginService.login({ username, password })
+            blogService.setToken(user.token)
             // keep a user logged in
             window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
-
             setUser(user)
             setUsername('')
             setPassword('')
         } catch (exception) {
             setErrorMessage('Wrong credentials provided')
+            setType('error')
             setTimeout(() => {
                 setErrorMessage(null)
+                setType('')
             }, 5000)
         }
     }
+
+    // handle the blog creation
+    const handleCreateBlog = async (event) => {
+        event.preventDefault()
+        console.log('xxxxx', newTitle, newAuthor, newUrl)
+        const blogObject = {
+            title: newTitle,
+            author: newAuthor,
+            url: newUrl,
+        }
+        console.log('new blogobject is here', blogObject)
+        const newBlog = await blogService.create(blogObject)
+        console.log('returned blog', newBlog)
+        blogs.concat(newBlog)
+        const updatedBlogsList = await blogService.getAll()
+        setBlogs(updatedBlogsList)
+        setNewTitle('')
+        setNewAuthor('')
+        setNewUrl('')
+
+        setNotification(`new blog ${newTitle} has been added`)
+        setType('notification')
+        setTimeout(() => {
+            setNotification(null)
+            setType('')
+        }, 5000)
+    }
+
     // logout
     const logout = () => {
         window.localStorage.clear()
@@ -85,17 +122,31 @@ const App = () => {
 
     // form to create a new blog
     const newBlogForm = () => (
-        <form>
+        <form onSubmit={handleCreateBlog}>
             <h3> Create a new blog</h3>
             <div>
-                title <input type='text' />
+                title{' '}
+                <input
+                    type='text'
+                    value={newTitle}
+                    onChange={({ target }) => setNewTitle(target.value)}
+                />
             </div>
             <div>
-                author <input type='text' />
+                author{' '}
+                <input
+                    type='text'
+                    value={newAuthor}
+                    onChange={({ target }) => setNewAuthor(target.value)}
+                />
             </div>
             <div>
                 url
-                <input type='text' />
+                <input
+                    type='text'
+                    value={newUrl}
+                    onChange={({ target }) => setNewUrl(target.value)}
+                />
             </div>
             <button type='submit'>Create</button>
         </form>
@@ -104,7 +155,8 @@ const App = () => {
     return (
         <div>
             <h1>blogs</h1>
-            <Notification message={errorMessage} />
+            <Notification message={errorMessage} type={type} />
+            <Notification message={notification} type={type} />
             {
                 user === null ? (
                     loginForm()
