@@ -6,6 +6,10 @@ h2 {
     color: rgb(0, 128, 75);
     font-style: italic;
 }
+h3 {
+    color: rgb(85, 216, 216);
+    font-style: italic;
+}
 
 .error {
     color: red;
