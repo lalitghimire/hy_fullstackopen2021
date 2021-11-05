@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
@@ -94,32 +95,6 @@ const App = () => {
         setPassword('')
     }
 
-    // login form generator
-    const loginForm = () => (
-        <form onSubmit={handleLogin}>
-            <h2>Log in to the application</h2>
-            <div>
-                username
-                <input
-                    type='text'
-                    value={username}
-                    name='Username'
-                    onChange={({ target }) => setUsername(target.value)}
-                />
-            </div>
-            <div>
-                password
-                <input
-                    type='password'
-                    value={password}
-                    name='Password'
-                    onChange={({ target }) => setPassword(target.value)}
-                />
-            </div>
-            <button type='submit'>login</button>
-        </form>
-    )
-
     // form to create a new blog
     const newBlogForm = () => (
         <form onSubmit={handleCreateBlog}>
@@ -159,7 +134,17 @@ const App = () => {
             <Notification message={notification} type={type} />
             {
                 user === null ? (
-                    loginForm()
+                    <LoginForm
+                        username={username}
+                        password={password}
+                        handleSubmit={handleLogin}
+                        handleNameChange={({ target }) =>
+                            setUsername(target.value)
+                        }
+                        handlePasswordChange={({ target }) =>
+                            setPassword(target.value)
+                        }
+                    />
                 ) : (
                     <div>
                         {' '}
