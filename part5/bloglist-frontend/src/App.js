@@ -13,6 +13,7 @@ const App = () => {
     const [errorMessage, setErrorMessage] = useState(null)
     const [notification, setNotification] = useState(null)
     const [type, setType] = useState('')
+    const [blogFormVisible, setblogFormVisible] = useState(false)
 
     // new blog
     const [newTitle, setNewTitle] = useState('')
@@ -78,7 +79,7 @@ const App = () => {
         setNewTitle('')
         setNewAuthor('')
         setNewUrl('')
-
+        setblogFormVisible(false)
         setNotification(`new blog ${newTitle} has been added`)
         setType('notification')
         setTimeout(() => {
@@ -96,36 +97,59 @@ const App = () => {
     }
 
     // form to create a new blog
-    const newBlogForm = () => (
-        <form onSubmit={handleCreateBlog}>
-            <h3> Create a new blog</h3>
+    const newBlogForm = () => {
+        const hideWhenVisible = { display: blogFormVisible ? 'none' : '' }
+        const showWhenVisible = { display: blogFormVisible ? '' : 'none' }
+
+        return (
             <div>
-                title{' '}
-                <input
-                    type='text'
-                    value={newTitle}
-                    onChange={({ target }) => setNewTitle(target.value)}
-                />
+                <div style={hideWhenVisible}>
+                    <button onClick={() => setblogFormVisible(true)}>
+                        Create a blog
+                    </button>
+                </div>
+                <div style={showWhenVisible}>
+                    <form onSubmit={handleCreateBlog}>
+                        <h3> Create a new blog</h3>
+                        <div>
+                            title{' '}
+                            <input
+                                type='text'
+                                value={newTitle}
+                                onChange={({ target }) =>
+                                    setNewTitle(target.value)
+                                }
+                            />
+                        </div>
+                        <div>
+                            author{' '}
+                            <input
+                                type='text'
+                                value={newAuthor}
+                                onChange={({ target }) =>
+                                    setNewAuthor(target.value)
+                                }
+                            />
+                        </div>
+                        <div>
+                            url
+                            <input
+                                type='text'
+                                value={newUrl}
+                                onChange={({ target }) =>
+                                    setNewUrl(target.value)
+                                }
+                            />
+                        </div>
+                        <button type='submit'>Create</button>
+                    </form>
+                    <button onClick={() => setblogFormVisible(false)}>
+                        cancel
+                    </button>
+                </div>
             </div>
-            <div>
-                author{' '}
-                <input
-                    type='text'
-                    value={newAuthor}
-                    onChange={({ target }) => setNewAuthor(target.value)}
-                />
-            </div>
-            <div>
-                url
-                <input
-                    type='text'
-                    value={newUrl}
-                    onChange={({ target }) => setNewUrl(target.value)}
-                />
-            </div>
-            <button type='submit'>Create</button>
-        </form>
-    )
+        )
+    }
 
     return (
         <div>
