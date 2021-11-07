@@ -1,18 +1,47 @@
 import React, { useState } from 'react'
+import blogService from '../services/blogs'
 
 const BlogForm = ({
-    handleCreateBlog,
-    newTitle,
-    newAuthor,
-    newUrl,
-    setNewTitle,
-    setNewAuthor,
-    setNewUrl,
+    blogs,
+    setBlogs,
+
+    setNotification,
+    setType,
     blogFormVisible,
     setblogFormVisible,
 }) => {
+    const [newTitle, setNewTitle] = useState('')
+    const [newAuthor, setNewAuthor] = useState('')
+    const [newUrl, setNewUrl] = useState('')
+
     const hideWhenVisible = { display: blogFormVisible ? 'none' : '' }
     const showWhenVisible = { display: blogFormVisible ? '' : 'none' }
+
+    const handleCreateBlog = async (event) => {
+        event.preventDefault()
+        console.log('xxxxx', newTitle, newAuthor, newUrl)
+        const blogObject = {
+            title: newTitle,
+            author: newAuthor,
+            url: newUrl,
+        }
+        console.log('new blogobject is here', blogObject)
+        const newBlog = await blogService.create(blogObject)
+        console.log('returned blog', newBlog)
+        blogs.concat(newBlog)
+        const updatedBlogsList = await blogService.getAll()
+        setBlogs(updatedBlogsList)
+        setNewTitle('')
+        setNewAuthor('')
+        setNewUrl('')
+        setblogFormVisible(false)
+        setNotification(`new blog ${newTitle} has been added`)
+        setType('notification')
+        setTimeout(() => {
+            setNotification(null)
+            setType('')
+        }, 5000)
+    }
 
     return (
         <div>

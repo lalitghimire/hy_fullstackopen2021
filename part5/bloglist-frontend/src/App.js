@@ -16,11 +16,6 @@ const App = () => {
     const [type, setType] = useState('')
     const [blogFormVisible, setblogFormVisible] = useState(false)
 
-    // new blog
-    const [newTitle, setNewTitle] = useState('')
-    const [newAuthor, setNewAuthor] = useState('')
-    const [newUrl, setNewUrl] = useState('')
-
     // fetch the blogs
     useEffect(() => {
         blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -62,33 +57,6 @@ const App = () => {
         }
     }
 
-    // handle the blog creation
-    const handleCreateBlog = async (event) => {
-        event.preventDefault()
-        console.log('xxxxx', newTitle, newAuthor, newUrl)
-        const blogObject = {
-            title: newTitle,
-            author: newAuthor,
-            url: newUrl,
-        }
-        console.log('new blogobject is here', blogObject)
-        const newBlog = await blogService.create(blogObject)
-        console.log('returned blog', newBlog)
-        blogs.concat(newBlog)
-        const updatedBlogsList = await blogService.getAll()
-        setBlogs(updatedBlogsList)
-        setNewTitle('')
-        setNewAuthor('')
-        setNewUrl('')
-        setblogFormVisible(false)
-        setNotification(`new blog ${newTitle} has been added`)
-        setType('notification')
-        setTimeout(() => {
-            setNotification(null)
-            setType('')
-        }, 5000)
-    }
-
     // logout
     const logout = () => {
         window.localStorage.clear()
@@ -97,116 +65,45 @@ const App = () => {
         setPassword('')
     }
 
-    // form to create a new blog
-    // const newBlogForm = () => {
-    //     const hideWhenVisible = { display: blogFormVisible ? 'none' : '' }
-    //     const showWhenVisible = { display: blogFormVisible ? '' : 'none' }
-
-    //     return (
-    //         <div>
-    //             <div style={hideWhenVisible}>
-    //                 <button onClick={() => setblogFormVisible(true)}>
-    //                     Create a blog
-    //                 </button>
-    //             </div>
-    //             <div style={showWhenVisible}>
-    //                 <form onSubmit={handleCreateBlog}>
-    //                     <h3> Create a new blog</h3>
-    //                     <div>
-    //                         title{' '}
-    //                         <input
-    //                             type='text'
-    //                             value={newTitle}
-    //                             onChange={({ target }) =>
-    //                                 setNewTitle(target.value)
-    //                             }
-    //                         />
-    //                     </div>
-    //                     <div>
-    //                         author{' '}
-    //                         <input
-    //                             type='text'
-    //                             value={newAuthor}
-    //                             onChange={({ target }) =>
-    //                                 setNewAuthor(target.value)
-    //                             }
-    //                         />
-    //                     </div>
-    //                     <div>
-    //                         url
-    //                         <input
-    //                             type='text'
-    //                             value={newUrl}
-    //                             onChange={({ target }) =>
-    //                                 setNewUrl(target.value)
-    //                             }
-    //                         />
-    //                     </div>
-    //                     <button type='submit'>Create</button>
-    //                 </form>
-    //                 <button onClick={() => setblogFormVisible(false)}>
-    //                     cancel
-    //                 </button>
-    //             </div>
-    //         </div>
-    //     )
-    // }
-
     return (
         <div>
             <h1>blogs</h1>
             <Notification message={errorMessage} type={type} />
             <Notification message={notification} type={type} />
-            {
-                user === null ? (
-                    <LoginForm
-                        username={username}
-                        password={password}
-                        handleSubmit={handleLogin}
-                        handleNameChange={({ target }) =>
-                            setUsername(target.value)
-                        }
-                        handlePasswordChange={({ target }) =>
-                            setPassword(target.value)
-                        }
-                    />
-                ) : (
-                    <div>
+            {user === null ? (
+                <LoginForm
+                    username={username}
+                    password={password}
+                    handleSubmit={handleLogin}
+                    handleNameChange={({ target }) => setUsername(target.value)}
+                    handlePasswordChange={({ target }) =>
+                        setPassword(target.value)
+                    }
+                />
+            ) : (
+                <div>
+                    {' '}
+                    <h2>
                         {' '}
-                        <h2>
-                            {' '}
-                            {user.name} is logged in{' '}
-                            <button onClick={logout}>logout</button>
-                        </h2>{' '}
-                        <BlogForm
-                            handleCreateBlog={handleCreateBlog}
-                            newTitle={newTitle}
-                            newAuthor={newAuthor}
-                            newUrl={newUrl}
-                            setNewTitle={setNewTitle}
-                            setNewAuthor={setNewAuthor}
-                            setNewUrl={setNewUrl}
-                            blogFormVisible={blogFormVisible}
-                            setblogFormVisible={setblogFormVisible}
-                        />
-                        <h3>Blogs for the logged user</h3>
-                        {blogs
-                            .filter(
-                                (blog) => blog.user.username === user.username
-                            )
-                            .map((blog) => (
-                                <Blog key={blog.id} blog={blog} />
-                            ))}
-                    </div>
-                )
-
-                /* {user == null && loginForm()}
-            {user != null && <h2> {user.name} is logged in </h2>}
-            {user != null &&
-                blogs
-                    .filter((blog) => blog.user.username === user.username)
-                    .map((blog) => <Blog key={blog.id} blog={blog} />)} */
-            }
+                        {user.name} is logged in{' '}
+                        <button onClick={logout}>logout</button>
+                    </h2>{' '}
+                    <BlogForm
+                        blogs={blogs}
+                        setBlogs={setBlogs}
+                        setNotification={setNotification}
+                        blogFormVisible={blogFormVisible}
+                        setblogFormVisible={setblogFormVisible}
+                        setType={setType}
+                    />
+                    <h3>Blogs for the logged user</h3>
+                    {blogs
+                        .filter((blog) => blog.user.username === user.username)
+                        .map((blog) => (
+                            <Blog key={blog.id} blog={blog} />
+                        ))}
+                </div>
+            )}
         </div>
     )
 }
