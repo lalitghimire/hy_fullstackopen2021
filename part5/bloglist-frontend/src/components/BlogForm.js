@@ -4,7 +4,6 @@ import blogService from '../services/blogs'
 const BlogForm = ({
     blogs,
     setBlogs,
-
     setNotification,
     setType,
     blogFormVisible,

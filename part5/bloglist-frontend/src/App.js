@@ -96,7 +96,7 @@ const App = () => {
                         setblogFormVisible={setblogFormVisible}
                         setType={setType}
                     />
-                    <h3>Blogs for the logged user</h3>
+                    <h3>Blogs for the {user.name}(logged in)</h3>
                     {blogs
                         .filter((blog) => blog.user.username === user.username)
                         .map((blog) => (
