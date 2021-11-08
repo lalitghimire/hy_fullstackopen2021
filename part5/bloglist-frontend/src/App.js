@@ -75,7 +75,9 @@ const App = () => {
                     username={username}
                     password={password}
                     handleSubmit={handleLogin}
-                    handleNameChange={({ target }) => setUsername(target.value)}
+                    handleUsernameChange={({ target }) =>
+                        setUsername(target.value)
+                    }
                     handlePasswordChange={({ target }) =>
                         setPassword(target.value)
                     }
