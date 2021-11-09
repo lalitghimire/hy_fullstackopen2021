@@ -9,7 +9,7 @@ const Blog = ({ blog }) => {
         color: 'purple',
     }
     return (
-        <div style={blogStyle}>
+        <div className='blog' style={blogStyle}>
             {blog.title} {blog.author}
         </div>
     )
