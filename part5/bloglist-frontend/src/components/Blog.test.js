@@ -13,8 +13,10 @@ test('renders blog', () => {
 
     const component = render(<Blog blog={blog} />)
 
-    expect(component.container).toHaveTextContent('this is blog render testing')
-    expect(component.container).toHaveTextContent('tester')
-    expect(component.container).not.toHaveTextContent('url.com')
-    expect(component.container).not.toHaveTextContent('100')
+    const div = component.container.querySelector('.blog')
+
+    expect(div).toHaveTextContent('this is blog render testing')
+    expect(div).toHaveTextContent('tester')
+    expect(div).not.toHaveTextContent('url.com')
+    expect(div).not.toHaveTextContent('100')
 })
