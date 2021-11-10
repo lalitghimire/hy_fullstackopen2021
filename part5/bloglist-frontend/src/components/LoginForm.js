@@ -14,6 +14,7 @@ const LoginForm = ({
             <div>
                 username
                 <input
+                    id='loginform-username'
                     type='text'
                     value={username}
                     name='Username'
@@ -23,6 +24,7 @@ const LoginForm = ({
             <div>
                 password
                 <input
+                    id='loginform-password'
                     type='password'
                     value={password}
                     name='Password'
