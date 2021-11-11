@@ -43,7 +43,7 @@ describe('blog app', function () {
             cy.get('#blog-title').type('Creating a blog cypress test')
             cy.get('#blog-author').type('Hulk')
             cy.get('#blog-url').type('hulk.com')
-            cy.get('button[type="submit"]').click()
+            cy.get('#create-btn').click()
             // to test if blog added to the list of blogs(div with classname="blog")
             cy.get('.blog').contains('Creating a blog cypress test')
         })
