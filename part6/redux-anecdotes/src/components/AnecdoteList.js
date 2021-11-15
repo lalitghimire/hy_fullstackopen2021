@@ -10,7 +10,14 @@ const AnecdoteList = () => {
             {anecdotes
                 .sort((x, y) => y.votes - x.votes)
                 .map((anecdote) => (
-                    <div key={anecdote.id}>
+                    <div
+                        style={{
+                            backgroundColor: 'skyblue',
+                            border: 'solid 1px',
+                            margin: '5px',
+                        }}
+                        key={anecdote.id}
+                    >
                         <div>{anecdote.content}</div>
                         <div>
                             has {anecdote.votes}
