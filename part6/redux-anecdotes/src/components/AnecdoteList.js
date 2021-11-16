@@ -21,7 +21,18 @@ const AnecdoteList = () => {
                         <div>{anecdote.content}</div>
                         <div>
                             has {anecdote.votes}
-                            <button onClick={() => dispatch(vote(anecdote.id))}>
+                            <button
+                                onClick={() => {
+                                    dispatch(vote(anecdote.id))
+                                    dispatch({
+                                        type: 'SET',
+                                        data: `you voted ${anecdote.content}`,
+                                    })
+                                    setTimeout(() => {
+                                        dispatch({ type: 'CLEAR' })
+                                    }, 2000)
+                                }}
+                            >
                                 vote
                             </button>
                         </div>

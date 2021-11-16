@@ -10,6 +10,10 @@ const AnecdoteForm = () => {
         const content = e.target.anecdoteinput.value
         e.target.anecdoteinput.value = ''
         dispatch(createNewAnecdote(content))
+        dispatch({ type: 'SET', data: `${content} has been added` })
+        setTimeout(() => {
+            dispatch({ type: 'CLEAR' })
+        }, 2000)
     }
     return (
         <div>
