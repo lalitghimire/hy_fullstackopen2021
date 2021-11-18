@@ -1,6 +1,6 @@
 const initialFilter = ''
 
-const notificationReducer = (state = initialFilter, action) => {
+const filterReducer = (state = initialFilter, action) => {
     switch (action.type) {
         case 'FILTER':
             return action.data
@@ -17,4 +17,4 @@ export const setFilter = (searchWord) => {
     }
 }
 
-export default notificationReducer
+export default filterReducer
