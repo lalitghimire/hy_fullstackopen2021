@@ -11,4 +11,11 @@ const notificationReducer = (state = initialMessage, action) => {
     }
 }
 
+export const setNotification = (message) => {
+    return {
+        type: 'SET',
+        data: message,
+    }
+}
+
 export default notificationReducer

@@ -10,4 +10,11 @@ const notificationReducer = (state = initialFilter, action) => {
     }
 }
 
+export const setFilter = (searchWord) => {
+    return {
+        type: 'FILTER',
+        data: searchWord,
+    }
+}
+
 export default notificationReducer
