@@ -39,7 +39,7 @@ const AnecdoteList = () => {
                                     )
                                     setTimeout(() => {
                                         dispatch({ type: 'CLEAR' })
-                                    }, 2000)
+                                    }, 5000)
                                 }}
                             >
                                 vote
