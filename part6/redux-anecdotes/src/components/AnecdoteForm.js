@@ -11,10 +11,10 @@ const AnecdoteForm = () => {
         e.preventDefault()
         const content = e.target.anecdoteinput.value
         e.target.anecdoteinput.value = ''
-        const newAnecdote = await anecdoteService.create(content)
-        console.log('here is new anecdote', newAnecdote)
-        dispatch(createNewAnecdote(newAnecdote))
-        dispatch(setNotification(`"${newAnecdote.content}" - has been added`))
+        //const newAnecdote = await anecdoteService.create(content)
+        //console.log('here is new anecdote', newAnecdote)
+        dispatch(createNewAnecdote(content))
+        dispatch(setNotification(`"${content}" - has been added`))
         setTimeout(() => {
             dispatch({ type: 'CLEAR' })
         }, 2000)
