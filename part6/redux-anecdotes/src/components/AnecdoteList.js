@@ -31,7 +31,7 @@ const AnecdoteList = () => {
                             has {anecdote.votes}
                             <button
                                 onClick={() => {
-                                    dispatch(vote(anecdote.id))
+                                    dispatch(vote(anecdote))
                                     dispatch(
                                         setNotification(
                                             `You voted - "${anecdote.content}"`
