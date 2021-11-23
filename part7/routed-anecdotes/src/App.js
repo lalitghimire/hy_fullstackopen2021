@@ -97,11 +97,11 @@ const CreateNew = (props) => {
     // const [info, setInfo] = useState('')
 
     //use custom hook created
-    const content = useField('text')
-    const author = useField('text')
-    const info = useField('text')
+    // ****note to self*** see rest operator/ spread operator
+    const { resetField: resetContent, ...content } = useField('text')
+    const { resetField: resetAuthor, ...author } = useField('text')
+    const { resetField: resetInfo, ...info } = useField('text')
 
-    console.log('xxxxxxxxxxxxx', content)
     const history = useHistory()
     console.log('props', props)
     const handleSubmit = (e) => {
@@ -115,9 +115,9 @@ const CreateNew = (props) => {
         history.push('/')
     }
     const resetAll = () => {
-        content.resetField()
-        author.resetField()
-        info.resetField()
+        resetContent()
+        resetAuthor()
+        resetInfo()
     }
     return (
         <div>
