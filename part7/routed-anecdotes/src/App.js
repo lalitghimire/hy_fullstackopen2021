@@ -101,6 +101,7 @@ const CreateNew = (props) => {
     const author = useField('text')
     const info = useField('text')
 
+    console.log('xxxxxxxxxxxxx', content)
     const history = useHistory()
     console.log('props', props)
     const handleSubmit = (e) => {
@@ -113,11 +114,15 @@ const CreateNew = (props) => {
         })
         history.push('/')
     }
-
+    const resetAll = () => {
+        content.resetField()
+        author.resetField()
+        info.resetField()
+    }
     return (
         <div>
             <h2>create a new anecdote</h2>
-            <form onSubmit={handleSubmit}>
+            <form>
                 <div>
                     content
                     <input {...content} />
@@ -130,7 +135,8 @@ const CreateNew = (props) => {
                     url for more info
                     <input {...info} />
                 </div>
-                <button>create</button>
+                <button onClick={handleSubmit}>create</button>
+                <button onClick={resetAll}>reset</button>
             </form>
         </div>
     )
