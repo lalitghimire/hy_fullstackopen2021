@@ -5,6 +5,7 @@ import {
     Route,
     Link,
     useParams,
+    useHistory,
 } from 'react-router-dom'
 
 const Menu = () => {
@@ -13,15 +14,15 @@ const Menu = () => {
     }
     return (
         <div>
-            <a href='/' style={padding}>
+            <Link to='/' style={padding}>
                 anecdotes
-            </a>
-            <a href='/create' style={padding}>
+            </Link>
+            <Link to='/create' style={padding}>
                 create new
-            </a>
-            <a href='/about' style={padding}>
+            </Link>
+            <Link to='/about' style={padding}>
                 about
-            </a>
+            </Link>
         </div>
     )
 }
@@ -94,6 +95,8 @@ const CreateNew = (props) => {
     const [author, setAuthor] = useState('')
     const [info, setInfo] = useState('')
 
+    const history = useHistory()
+    console.log('props', props)
     const handleSubmit = (e) => {
         e.preventDefault()
         props.addNew({
@@ -102,6 +105,7 @@ const CreateNew = (props) => {
             info,
             votes: 0,
         })
+        history.push('/')
     }
 
     return (
@@ -159,8 +163,13 @@ const App = () => {
     const [notification, setNotification] = useState('')
 
     const addNew = (anecdote) => {
+        console.log('here is new', anecdote)
         anecdote.id = (Math.random() * 10000).toFixed(0)
         setAnecdotes(anecdotes.concat(anecdote))
+        setNotification(`a new "${anecdote.content}" created`)
+        setTimeout(() => {
+            setNotification(null)
+        }, 5000)
     }
 
     const anecdoteById = (id) => anecdotes.find((a) => a.id === id)
@@ -179,11 +188,12 @@ const App = () => {
     return (
         <div>
             <h1>Software anecdotes</h1>
+            <h2>{notification}</h2>
             <Router>
                 <Menu />
                 <Switch>
                     <Route path='/create'>
-                        <CreateNew />{' '}
+                        <CreateNew addNew={addNew} />{' '}
                     </Route>
                     <Route path='/about'>
                         <About />{' '}
@@ -196,6 +206,7 @@ const App = () => {
                     </Route>
                 </Switch>
             </Router>
+
             <Footer />
         </div>
     )
