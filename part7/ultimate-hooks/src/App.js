@@ -25,7 +25,10 @@ const useResource = (baseUrl) => {
     }, [baseUrl])
 
     const create = (resource) => {
-        // ...
+        axios
+            .post(baseUrl, resource)
+            .then((response) => setResources([...resources, response.data]))
+            .catch((error) => console.log(error))
     }
 
     const service = {
