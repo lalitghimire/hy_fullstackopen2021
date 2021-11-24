@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
+// custom hook as in previos exercise (form input)
 const useField = (type) => {
     const [value, setValue] = useState('')
 
@@ -15,6 +16,7 @@ const useField = (type) => {
     }
 }
 
+// custom hook to fetch and create resources to server with baseUrl
 const useResource = (baseUrl) => {
     const [resources, setResources] = useState([])
 
@@ -38,11 +40,13 @@ const useResource = (baseUrl) => {
     return [resources, service]
 }
 
+// main app component
 const App = () => {
     const content = useField('text')
     const name = useField('text')
     const number = useField('text')
 
+    // using custom hook
     const [notes, noteService] = useResource('http://localhost:3005/notes')
     const [persons, personService] = useResource(
         'http://localhost:3005/persons'
