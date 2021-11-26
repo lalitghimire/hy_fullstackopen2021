@@ -22,9 +22,11 @@ const Blog = ({ blog }) => {
                 </button>
             </div>
             <div style={detailView}>
-                <div>url {blog.url}</div>
-                <div>likes {blog.likes}</div>
-                <div>user {blog.user.name}</div>
+                <div>Url {blog.url}</div>
+                <div>
+                    likes {blog.likes} <button> like</button>{' '}
+                </div>
+                <div>User {blog.user.name}</div>
             </div>
         </div>
     )
