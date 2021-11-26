@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 const Blog = ({ blog }) => {
     console.log('here is the blog object', blog)
+    const [detailVisible, setDetailVisible] = useState(false)
 
-    const viewClick = () => {
-        return <div>{blog.url} </div>
-    }
+    const detailView = { display: detailVisible ? '' : 'none' }
+
     const blogStyle = {
         paddingTop: 10,
         paddingLeft: 2,
@@ -15,8 +15,17 @@ const Blog = ({ blog }) => {
     }
     return (
         <div className='blog' style={blogStyle}>
-            {blog.title} {blog.author}{' '}
-            <button onClick={viewClick}>view </button>
+            <div>
+                {blog.title} {blog.author}{' '}
+                <button onClick={() => setDetailVisible(!detailVisible)}>
+                    {detailVisible ? 'hide' : 'view'}
+                </button>
+            </div>
+            <div style={detailView}>
+                <div>url {blog.url}</div>
+                <div>likes {blog.likes}</div>
+                <div>user {blog.user.name}</div>
+            </div>
         </div>
     )
 }
