@@ -10,7 +10,15 @@ const Blog = ({ blog, setBlogs }) => {
     const handleLike = async (blog) => {
         console.log('here is blogvalue', blog)
         const likedBlog = { ...blog, likes: blog.likes + 1 }
-        await blogService.updateLike(likedBlog)
+        await blogService.update(likedBlog)
+        const updateblogs = await blogService.getAll()
+        setBlogs(updateblogs)
+    }
+    const handleDelete = async (blog) => {
+        console.log('clicked remove', blog)
+        console.log('here is blogvalue', blog)
+        const tobeDeletedBlog = { ...blog }
+        await blogService.remove(tobeDeletedBlog)
         const updateblogs = await blogService.getAll()
         setBlogs(updateblogs)
     }
@@ -38,6 +46,13 @@ const Blog = ({ blog, setBlogs }) => {
                     <button onClick={() => handleLike(blog)}> like</button>{' '}
                 </div>
                 <div>User {blog.user.name}</div>
+                <button
+                    style={{ background: 'rgb(66, 184, 221)' }}
+                    onClick={() => handleDelete(blog)}
+                >
+                    {' '}
+                    remove{' '}
+                </button>
             </div>
         </div>
     )

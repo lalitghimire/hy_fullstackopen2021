@@ -19,7 +19,8 @@ const create = async (newObject) => {
     const response = await axios.post(baseUrl, newObject, config)
     return response.data
 }
-const updateLike = async (blog) => {
+// changed updateLike to update so that update can be reused
+const update = async (blog) => {
     const config = {
         headers: { Authorization: token },
     }
@@ -27,6 +28,14 @@ const updateLike = async (blog) => {
     const response = await axios.put(`${baseUrl}/${blog.id}`, blog, config)
     return response.data
 }
+const remove = async (blog) => {
+    const config = {
+        headers: { Authorization: token },
+    }
 
-const blogService = { getAll, setToken, create, updateLike }
+    const response = await axios.delete(`${baseUrl}/${blog.id}`, config)
+    return response.data
+}
+
+const blogService = { getAll, setToken, create, update, remove }
 export default blogService
