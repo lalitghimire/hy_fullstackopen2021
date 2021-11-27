@@ -18,7 +18,12 @@ const App = () => {
 
     // fetch the blogs
     useEffect(() => {
-        blogService.getAll().then((blogs) => setBlogs(blogs))
+        // blogService.getAll().then((blogs) => setBlogs(blogs))
+        const fetch = async () => {
+            const blogList = await blogService.getAll()
+            setBlogs(blogList)
+        }
+        fetch()
     }, [])
 
     //the application checks if user details of a logged-in user
@@ -102,7 +107,11 @@ const App = () => {
                     {blogs
                         .filter((blog) => blog.user.username === user.username)
                         .map((blog) => (
-                            <Blog key={blog.id} blog={blog} />
+                            <Blog
+                                key={blog.id}
+                                blog={blog}
+                                setBlogs={setBlogs}
+                            />
                         ))}
                 </div>
             )}

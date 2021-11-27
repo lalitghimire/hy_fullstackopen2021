@@ -1,9 +1,19 @@
 import React, { useState } from 'react'
-const Blog = ({ blog }) => {
+import blogService from '../services/blogs'
+
+const Blog = ({ blog, setBlogs }) => {
     console.log('here is the blog object', blog)
     const [detailVisible, setDetailVisible] = useState(false)
 
     const detailView = { display: detailVisible ? '' : 'none' }
+
+    const handleLike = async (blog) => {
+        console.log('here is blogvalue', blog)
+        const likedBlog = { ...blog, likes: blog.likes + 1 }
+        await blogService.updateLike(likedBlog)
+        const updateblogs = await blogService.getAll()
+        setBlogs(updateblogs)
+    }
 
     const blogStyle = {
         paddingTop: 10,
@@ -24,7 +34,8 @@ const Blog = ({ blog }) => {
             <div style={detailView}>
                 <div>Url {blog.url}</div>
                 <div>
-                    likes {blog.likes} <button> like</button>{' '}
+                    likes {blog.likes}{' '}
+                    <button onClick={() => handleLike(blog)}> like</button>{' '}
                 </div>
                 <div>User {blog.user.name}</div>
             </div>
