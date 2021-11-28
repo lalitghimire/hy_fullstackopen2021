@@ -9,12 +9,11 @@ test(`renders blog's title and author`, () => {
         author: 'tester',
         url: 'url.com',
         likes: 100,
-        user: { name: 'Lalit' },
     }
 
     const component = render(<Blog blog={blog} />)
 
-    const div = component.container.querySelector('.limitview')
+    const div = component.container.querySelector('.blog')
 
     expect(div).toHaveTextContent('this is blog render testing')
     expect(div).toHaveTextContent('tester')
