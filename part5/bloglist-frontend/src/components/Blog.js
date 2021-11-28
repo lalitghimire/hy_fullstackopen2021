@@ -35,7 +35,10 @@ const Blog = ({ blog, setBlogs }) => {
         <div className='blog' style={blogStyle}>
             <div className='limitview'>
                 {blog.title} {blog.author}{' '}
-                <button onClick={() => setDetailVisible(!detailVisible)}>
+                <button
+                    className='hideviewbutton'
+                    onClick={() => setDetailVisible(!detailVisible)}
+                >
                     {detailVisible ? 'hide' : 'view'}
                 </button>
             </div>
