@@ -39,21 +39,23 @@ const Blog = ({ blog, setBlogs }) => {
                     {detailVisible ? 'hide' : 'view'}
                 </button>
             </div>
-            <div style={detailView} className='detailview'>
-                <div>Url {blog.url}</div>
-                <div>
-                    likes {blog.likes}{' '}
-                    <button onClick={() => handleLike(blog)}> like</button>{' '}
+            {detailVisible ? (
+                <div style={detailView} className='detailview'>
+                    <div>Url {blog.url}</div>
+                    <div>
+                        likes {blog.likes}{' '}
+                        <button onClick={() => handleLike(blog)}> like</button>{' '}
+                    </div>
+                    <div>User {blog.user.name}</div>
+                    <button
+                        style={{ background: 'rgb(66, 184, 221)' }}
+                        onClick={() => handleDelete(blog)}
+                    >
+                        {' '}
+                        remove{' '}
+                    </button>
                 </div>
-                <div>User {blog.user.name}</div>
-                <button
-                    style={{ background: 'rgb(66, 184, 221)' }}
-                    onClick={() => handleDelete(blog)}
-                >
-                    {' '}
-                    remove{' '}
-                </button>
-            </div>
+            ) : null}
         </div>
     )
 }
