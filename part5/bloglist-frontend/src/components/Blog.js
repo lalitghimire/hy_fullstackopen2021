@@ -33,13 +33,13 @@ const Blog = ({ blog, setBlogs }) => {
     }
     return (
         <div className='blog' style={blogStyle}>
-            <div>
+            <div className='limitview'>
                 {blog.title} {blog.author}{' '}
                 <button onClick={() => setDetailVisible(!detailVisible)}>
                     {detailVisible ? 'hide' : 'view'}
                 </button>
             </div>
-            <div style={detailView}>
+            <div style={detailView} className='detailview'>
                 <div>Url {blog.url}</div>
                 <div>
                     likes {blog.likes}{' '}
