@@ -83,10 +83,15 @@ const App = () => {
     const handleDelete = async (blog) => {
         console.log('clicked remove', blog)
         console.log('here is blogvalue', blog)
-        const tobeDeletedBlog = { ...blog }
-        await blogService.remove(tobeDeletedBlog)
-        const updateblogs = await blogService.getAll()
-        setBlogs(updateblogs)
+        const confirm = window.confirm(
+            `Remove blog ${blog.title}! by ${blog.author}`
+        )
+        if (confirm) {
+            const tobeDeletedBlog = { ...blog }
+            await blogService.remove(tobeDeletedBlog)
+            const updateblogs = await blogService.getAll()
+            setBlogs(updateblogs)
+        }
     }
 
     return (
