@@ -1,27 +1,10 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
 
-const Blog = ({ blog, setBlogs }) => {
+const Blog = ({ blog, handleLike, handleDelete }) => {
     console.log('here is the blog object', blog)
     const [detailVisible, setDetailVisible] = useState(false)
 
     const detailView = { display: detailVisible ? '' : 'none' }
-
-    const handleLike = async (blog) => {
-        console.log('here is blogvalue', blog)
-        const likedBlog = { ...blog, likes: blog.likes + 1 }
-        await blogService.update(likedBlog)
-        const updateblogs = await blogService.getAll()
-        setBlogs(updateblogs)
-    }
-    const handleDelete = async (blog) => {
-        console.log('clicked remove', blog)
-        console.log('here is blogvalue', blog)
-        const tobeDeletedBlog = { ...blog }
-        await blogService.remove(tobeDeletedBlog)
-        const updateblogs = await blogService.getAll()
-        setBlogs(updateblogs)
-    }
 
     const blogStyle = {
         paddingTop: 10,
@@ -47,7 +30,13 @@ const Blog = ({ blog, setBlogs }) => {
                     <div>Url {blog.url}</div>
                     <div>
                         likes {blog.likes}{' '}
-                        <button onClick={() => handleLike(blog)}> like</button>{' '}
+                        <button
+                            className='likeButton'
+                            onClick={() => handleLike(blog)}
+                        >
+                            {' '}
+                            like
+                        </button>{' '}
                     </div>
                     <div>User {blog.user.name}</div>
                     <button

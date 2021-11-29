@@ -70,6 +70,25 @@ const App = () => {
         setPassword('')
     }
 
+    // handler for the like button
+
+    const handleLike = async (blog) => {
+        console.log('here is blogvalue', blog)
+        const likedBlog = { ...blog, likes: blog.likes + 1 }
+        await blogService.update(likedBlog)
+        const updateblogs = await blogService.getAll()
+        setBlogs(updateblogs)
+    }
+    // handler for delete blog button
+    const handleDelete = async (blog) => {
+        console.log('clicked remove', blog)
+        console.log('here is blogvalue', blog)
+        const tobeDeletedBlog = { ...blog }
+        await blogService.remove(tobeDeletedBlog)
+        const updateblogs = await blogService.getAll()
+        setBlogs(updateblogs)
+    }
+
     return (
         <div>
             <h1>blogs</h1>
@@ -111,7 +130,8 @@ const App = () => {
                             <Blog
                                 key={blog.id}
                                 blog={blog}
-                                setBlogs={setBlogs}
+                                handleLike={handleLike}
+                                handleDelete={handleDelete}
                             />
                         ))}
                 </div>
