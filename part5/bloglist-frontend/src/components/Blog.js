@@ -19,7 +19,7 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
             <div className='limitview'>
                 {blog.title} {blog.author}{' '}
                 <button
-                    className='hideviewbutton'
+                    className='hideviewButton'
                     onClick={() => setDetailVisible(!detailVisible)}
                 >
                     {detailVisible ? 'hide' : 'view'}
@@ -40,6 +40,7 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
                     </div>
                     <div>User {blog.user.name}</div>
                     <button
+                        id='deleteButton'
                         style={{ background: 'rgb(66, 184, 221)' }}
                         onClick={() => handleDelete(blog)}
                     >

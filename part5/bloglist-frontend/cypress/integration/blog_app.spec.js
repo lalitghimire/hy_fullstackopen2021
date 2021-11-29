@@ -47,5 +47,24 @@ describe('blog app', function () {
             // to test if blog added to the list of blogs(div with classname="blog")
             cy.get('.blog').contains('Creating a blog cypress test')
         })
+        describe('a blog can be saved ', function () {
+            beforeEach(function () {
+                const body = {
+                    title: 'newblog',
+                    author: 'blogAuthor',
+                    url: 'blog.com',
+                    likes: 2,
+                }
+                cy.saveBlog(body)
+            })
+            it('user can like a blog', function () {
+                cy.get('.hideviewButton').click()
+                cy.get('.likeButton').click()
+            })
+            it('(logged)user can delete a blog', function () {
+                cy.get('.hideviewButton').click()
+                cy.get('#deleteButton').click()
+            })
+        })
     })
 })

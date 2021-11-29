@@ -31,7 +31,7 @@ test(`show blog details when view button clicked`, () => {
 
     const component = render(<Blog blog={blog} />)
 
-    const clickButton = component.container.querySelector('.hideviewbutton')
+    const clickButton = component.container.querySelector('.hideviewButton')
     fireEvent.click(clickButton)
 
     expect(component.container).toHaveTextContent('this is blog render testing')
@@ -53,7 +53,7 @@ test(`clicking the like button twice calls eventhandler twice `, () => {
 
     const component = render(<Blog blog={blog} handleLike={mockHandler} />)
 
-    const viewButton = component.container.querySelector('.hideviewbutton')
+    const viewButton = component.container.querySelector('.hideviewButton')
     fireEvent.click(viewButton)
 
     const likeButton = component.container.querySelector('.likeButton')
