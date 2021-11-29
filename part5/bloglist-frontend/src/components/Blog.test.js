@@ -39,3 +39,26 @@ test(`show blog details when view button clicked`, () => {
     expect(component.container).toHaveTextContent('url.com')
     expect(component.container).toHaveTextContent('100')
 })
+
+test(`clicking the like button twice calls eventhandler twice `, () => {
+    const blog = {
+        title: 'this is blog render testing',
+        author: 'tester',
+        url: 'url.com',
+        likes: 100,
+        user: { name: 'Lalit' },
+    }
+
+    const mockHandler = jest.fn()
+
+    const component = render(<Blog blog={blog} handleLike={mockHandler} />)
+
+    const viewButton = component.container.querySelector('.hideviewbutton')
+    fireEvent.click(viewButton)
+
+    const likeButton = component.container.querySelector('.likeButton')
+    fireEvent.click(likeButton)
+    fireEvent.click(likeButton)
+
+    expect(mockHandler.mock.calls).toHaveLength(2)
+})
