@@ -86,11 +86,21 @@ const App = () => {
         const confirm = window.confirm(
             `Remove blog ${blog.title}! by ${blog.author}`
         )
-        if (confirm) {
-            const tobeDeletedBlog = { ...blog }
-            await blogService.remove(tobeDeletedBlog)
-            const updateblogs = await blogService.getAll()
-            setBlogs(updateblogs)
+        try {
+            if (confirm) {
+                const tobeDeletedBlog = { ...blog }
+                await blogService.remove(tobeDeletedBlog)
+                const updateblogs = await blogService.getAll()
+                setBlogs(updateblogs)
+            }
+        } catch (exception) {
+            const deleteError = exception.response.data.error
+            setErrorMessage(`${deleteError}`)
+            setType('error')
+            setTimeout(() => {
+                setErrorMessage(null)
+                setType('')
+            }, 5000)
         }
     }
 
@@ -127,9 +137,9 @@ const App = () => {
                         setblogFormVisible={setblogFormVisible}
                         setType={setType}
                     />
-                    <h3>Blogs for the {user.name}(logged in)</h3>
+                    <h3>Blogs (logged in)</h3>
                     {blogs
-                        .filter((blog) => blog.user.username === user.username)
+                        //.filter((blog) => blog.user.username === user.username)
                         .sort((x, y) => y.likes - x.likes)
                         .map((blog) => (
                             <Blog
