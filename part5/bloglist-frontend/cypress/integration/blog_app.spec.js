@@ -49,21 +49,23 @@ describe('blog app', function () {
         })
         describe('a blog can be saved ', function () {
             beforeEach(function () {
-                const body = {
+                const newBlog = {
                     title: 'newblog',
                     author: 'blogAuthor',
                     url: 'blog.com',
                     likes: 2,
                 }
-                cy.saveBlog(body)
+                cy.saveBlog(newBlog)
             })
             it('user can like a blog', function () {
                 cy.get('.hideviewButton').click()
                 cy.get('.likeButton').click()
+                cy.get('.blog').contains(3)
             })
             it('(logged)user can delete a blog', function () {
                 cy.get('.hideviewButton').click()
                 cy.get('#deleteButton').click()
+                cy.get('.blog').should('not.exist')
             })
         })
     })
