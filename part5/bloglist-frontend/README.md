@@ -3,7 +3,7 @@
 -   run bloglist-backend with `npm run start:test` to have testing route running.
 -   run frontend normally with `npm start`.
 -   with both frontend and backend running from above steps. Go to root of frontend(as cypress is kept in frontend in our case).
--   run tests with ` npm run start:test`
+-   run tests with ` npm run cypress:open`
 
 # Getting Started with Create React App
 
