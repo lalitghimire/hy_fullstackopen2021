@@ -1,11 +1,15 @@
 {
-  "name": "typescript",
-  "version": "1.0.0",
-  "description": "exercise 9.1-9.7",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "lalit",
-  "license": "ISC"
+    "name": "typescript",
+    "version": "1.0.0",
+    "description": "exercise 9.1-9.7",
+    "main": "index.js",
+    "scripts": {
+        "ts-node": "ts-node"
+    },
+    "author": "lalit",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^16.11.11",
+        "tslib": "^2.3.1"
+    }
 }
