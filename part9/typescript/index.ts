@@ -10,8 +10,8 @@ app.get('/hello', (_req, res) => {
 
 // endpoint for the query exercise
 app.get('/bmi', (_req, res) => {
-    let heightQuery = _req.query.height;
-    let weightQuery = _req.query.weight;
+    const heightQuery = _req.query.height;
+    const weightQuery = _req.query.weight;
 
     const bmi = calculateBmi(Number(heightQuery), Number(weightQuery));
 
