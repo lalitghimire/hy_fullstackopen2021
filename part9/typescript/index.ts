@@ -11,7 +11,7 @@ app.get('/hello', (_req, res) => {
     res.send('Hello Full Stack! ');
 });
 
-// endpoint for the query task(9.5)
+// endpoint for the query task(9.5)(redone for error handling)
 app.get('/bmi', (req, res) => {
     const heightQuery = req.query.height;
     const weightQuery = req.query.weight;

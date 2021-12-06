@@ -19,7 +19,7 @@ const parseArguments = (args: Array<string>): BmiValues => {
     }
 };
 
-// parse arguments for web exercise
+// parse arguments for web exercise(revised for error handling in web)
 const parseWebArguments = (inputheight: any, inputweight: any) => {
     if (!isNaN(Number(inputheight)) && !isNaN(Number(inputweight))) {
         return {
