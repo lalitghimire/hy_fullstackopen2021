@@ -28,7 +28,6 @@ app.get('/bmi', (req, res) => {
                 bmi: bmi,
             });
         } catch (error) {
-            console.log('here is errorobject', Error);
             res.status(400);
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             res.send({ error: 'Provided values were not numbers!' });
@@ -52,7 +51,21 @@ app.post('/exercises', (req, res) => {
     const body: requestBody = req.body;
     const daily_exercises = body.daily_exercises;
     const target = body.target;
-    res.send(calculateExercise(target, daily_exercises));
+    console.log('body');
+
+    if (!daily_exercises || !target) {
+        res.status(400);
+        res.send('parameter missing');
+    } else {
+        if (
+            !isNaN(Number(target)) &&
+            daily_exercises.every((x) => !isNaN(Number(x)))
+        ) {
+            res.send(calculateExercise(target, daily_exercises));
+        } else {
+            res.send({ error: 'Malformatted parameters' });
+        }
+    }
 });
 
 const PORT = 3003;
