@@ -19,6 +19,18 @@ const parseArguments = (args: Array<string>): BmiValues => {
     }
 };
 
+// parse arguments for web exercise
+const parseWebArguments = (inputheight: any, inputweight: any) => {
+    if (!isNaN(Number(inputheight)) && !isNaN(Number(inputweight))) {
+        return {
+            height: Number(inputheight),
+            weight: Number(inputweight),
+        };
+    } else {
+        throw new Error();
+    }
+};
+
 // main function
 const calculateBmi = (height: number, weight: number) => {
     const bmi = weight / (height / 100) ** 2;
@@ -34,15 +46,17 @@ const calculateBmi = (height: number, weight: number) => {
 
 //console.log(calculateBmi(180, 74));
 
+// arguments from command line
 try {
     const { height, weight } = parseArguments(process.argv);
     console.log(calculateBmi(height, weight));
 } catch (error: unknown) {
-    let errorMessage = 'Something bad happened.';
+    let errorMessage =
+        'Something bad happened. Discard this msg if not using command line arguments';
     if (error instanceof Error) {
         errorMessage += ' Error: ' + error.message;
     }
     console.log(errorMessage);
 }
 
-export { calculateBmi };
+export { calculateBmi, parseWebArguments };
