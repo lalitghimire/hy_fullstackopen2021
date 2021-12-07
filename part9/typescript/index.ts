@@ -55,7 +55,7 @@ app.post('/exercises', (req, res) => {
 
     if (!daily_exercises || !target) {
         res.status(400);
-        res.send('parameter missing');
+        res.send({ error: 'parameter missing' });
     } else {
         if (
             !isNaN(Number(target)) &&
