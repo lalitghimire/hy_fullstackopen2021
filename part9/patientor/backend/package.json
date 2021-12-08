@@ -1,0 +1,14 @@
+{
+    "name": "patientor-backend",
+    "version": "1.0.0",
+    "description": "backend for patientor using typescript",
+    "main": "index.js",
+    "scripts": {
+        "tsc": "tsc"
+    },
+    "author": "Lalit Ghimire",
+    "license": "ISC",
+    "devDependencies": {
+        "typescript": "^4.5.2"
+    }
+}
