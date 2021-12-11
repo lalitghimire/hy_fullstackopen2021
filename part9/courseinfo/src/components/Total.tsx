@@ -1,9 +1,5 @@
 import React from 'react';
-
-interface TotalProps {
-    name: string;
-    exerciseCount: number;
-}
+import { TotalProps } from '../type';
 
 const Total = ({ parts }: { parts: TotalProps[] }) => {
     return (

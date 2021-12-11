@@ -1,9 +1,5 @@
 import React from 'react';
-
-interface ContentProps {
-    name: string;
-    exerciseCount: number;
-}
+import { ContentProps } from '../type';
 
 const Content = ({ parts }: { parts: ContentProps[] }) => {
     return (
