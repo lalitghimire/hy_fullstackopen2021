@@ -48,6 +48,18 @@ const Part = ({ part }: { part: CoursePart }) => {
                     submit to {part.exerciseSubmissionLink}
                 </div>
             );
+        case 'special':
+            return (
+                <div>
+                    {' '}
+                    <b>
+                        {part.name} {part.exerciseCount}
+                    </b>{' '}
+                    <br />
+                    <i>{part.description} </i> <br />
+                    required skills: {part.requirements}
+                </div>
+            );
         default:
             return assertNever(part);
     }

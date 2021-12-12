@@ -23,7 +23,13 @@ interface CourseSubmissionPart extends CourseDescriptionBase {
     exerciseSubmissionLink: string;
 }
 
+interface CourseRequirementsPart extends CourseDescriptionBase {
+    type: 'special';
+    requirements: ['nodejs', 'jest'];
+}
+
 export type CoursePart =
     | CourseNormalPart
     | CourseProjectPart
-    | CourseSubmissionPart;
+    | CourseSubmissionPart
+    | CourseRequirementsPart;
