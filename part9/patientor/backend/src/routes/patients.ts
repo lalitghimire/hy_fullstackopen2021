@@ -9,6 +9,16 @@ router.get('/', (_req, res) => {
     res.send(patientsService.getPatients());
 });
 
+router.get('/:id', (req, res) => {
+    const id = req.params.id;
+    const singlePatient = patientsService.getPatientById(id);
+    if (singlePatient) {
+        return res.send(singlePatient);
+    } else {
+        return res.status(404).send({ error: 'Patient not found' });
+    }
+});
+
 router.post('/', (req, res) => {
     //const { name, dateOfBirth, gender, ssn, occupation } = req.body;
     try {
@@ -23,4 +33,5 @@ router.post('/', (req, res) => {
         res.status(400).send(errorMessage);
     }
 });
+
 export default router;
