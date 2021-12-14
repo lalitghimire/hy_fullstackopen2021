@@ -23,14 +23,19 @@ const SinglePatientPage = () => {
     };
 
     useEffect(() => {
+        //adding this line prevent from data to be
+        //refetched if already in app state(check network in console)
+        if (selectedPatient) {
+            return;
+        }
         const getSinglePatient = async () => {
             try {
-                const { data: patientFromApi } = await axios.get<Patient>(
+                const { data: patientDetailApi } = await axios.get<Patient>(
                     `${apiBaseUrl}/patients/${id}`
                 );
                 dispatch({
                     type: 'SET_PATIENT_DETAILS',
-                    payload: patientFromApi,
+                    payload: patientDetailApi,
                 });
             } catch (e) {
                 console.error(e);
