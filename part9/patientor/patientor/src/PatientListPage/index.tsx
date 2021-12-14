@@ -56,7 +56,7 @@ const PatientListPage = () => {
                         <Table.Row key={patient.id}>
                             <Table.Cell>
                                 {' '}
-                                <Link to={'/singlepatient'}>
+                                <Link to={`/patients/${patient.id}`}>
                                     {patient.name}
                                 </Link>
                             </Table.Cell>
