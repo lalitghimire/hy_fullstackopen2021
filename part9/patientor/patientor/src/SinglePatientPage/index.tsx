@@ -10,6 +10,7 @@ const SinglePatientPage = () => {
     const [{ patientDetails }, dispatch] = useStateValue();
     const { id } = useParams<{ id: string }>();
     const selectedPatient: Patient = patientDetails[id];
+    const [error, setError] = React.useState<string | undefined>();
 
     const genderIcon = (gender: string) => {
         switch (gender) {
@@ -36,6 +37,7 @@ const SinglePatientPage = () => {
                 dispatch(setPatientDetail(patientDetailFromApi));
             } catch (e) {
                 console.error(e);
+                setError(e.message);
             }
         };
         void getSinglePatient();
@@ -55,6 +57,8 @@ const SinglePatientPage = () => {
                 </p>
             </div>
         );
+    } else if (error) {
+        return <div>{error}</div>;
     } else return <div>...loading</div>;
 };
 
