@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
 import axios from 'axios';
 import { apiBaseUrl } from '../constants';
-import { setPatientDetail, useStateValue } from '../state';
-import { Patient } from '../types';
+import { setPatientDetail, useStateValue, setDiagnosisDetail } from '../state';
+import { Diagnosis, Patient } from '../types';
 
 const SinglePatientPage = () => {
-    const [{ patientDetails }, dispatch] = useStateValue();
+    const [{ patientDetails, diagnosisDetail }, dispatch] = useStateValue();
     const { id } = useParams<{ id: string }>();
     const selectedPatient: Patient = patientDetails[id];
     const [error, setError] = React.useState<string | undefined>();
@@ -40,7 +40,28 @@ const SinglePatientPage = () => {
                 setError(e.message);
             }
         };
+
         void getSinglePatient();
+    }, [dispatch]);
+
+    // fetch and dispatch the diagnoses list
+    if (diagnosisDetail) {
+        console.log(diagnosisDetail['F43.2'].name);
+    }
+    useEffect(() => {
+        const getDiagnoses = async () => {
+            try {
+                const { data: diagnosisListFromApi } = await axios.get<
+                    Diagnosis[]
+                >(`${apiBaseUrl}/diagnoses`);
+                dispatch(setDiagnosisDetail(diagnosisListFromApi));
+            } catch (e) {
+                console.error(e);
+                setError(e.message);
+            }
+        };
+
+        void getDiagnoses();
     }, [dispatch]);
 
     if (selectedPatient) {
@@ -63,7 +84,12 @@ const SinglePatientPage = () => {
                                 {entry.date} {entry.description}
                                 <ul>
                                     {entry.diagnosisCodes?.map((x) => {
-                                        return <li key={x}>{x}</li>;
+                                        return (
+                                            <li key={x}>
+                                                {x}{' '}
+                                                {diagnosisDetail[`${x}`].name}{' '}
+                                            </li>
+                                        );
                                     })}
                                 </ul>
                             </div>
