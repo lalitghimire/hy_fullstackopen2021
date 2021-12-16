@@ -55,6 +55,21 @@ const SinglePatientPage = () => {
                     ssn: {selectedPatient.ssn} <br />
                     occupation: {selectedPatient.occupation}
                 </p>
+                <h3>entries</h3>
+                <div>
+                    {selectedPatient.entries.map((entry) => {
+                        return (
+                            <div key={entry.id}>
+                                {entry.date} {entry.description}
+                                <ul>
+                                    {entry.diagnosisCodes?.map((x) => {
+                                        return <li key={x}>{x}</li>;
+                                    })}
+                                </ul>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         );
     } else if (error) {
