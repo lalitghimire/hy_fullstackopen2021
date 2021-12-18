@@ -4,10 +4,11 @@ import { Icon } from 'semantic-ui-react';
 import axios from 'axios';
 import { apiBaseUrl } from '../constants';
 import { setPatientDetail, useStateValue, setDiagnosisDetail } from '../state';
-import { Diagnosis, Patient } from '../types';
+import { Entry, Diagnosis, Patient } from '../types';
+import EntryDetails from '../components/EntryDetails';
 
 const SinglePatientPage = () => {
-    const [{ patientDetails, diagnosisDetail }, dispatch] = useStateValue();
+    const [{ patientDetails }, dispatch] = useStateValue();
     const { id } = useParams<{ id: string }>();
     const selectedPatient: Patient = patientDetails[id];
     const [error, setError] = React.useState<string | undefined>();
@@ -45,9 +46,7 @@ const SinglePatientPage = () => {
     }, [dispatch]);
 
     // fetch and dispatch the diagnoses list
-    if (diagnosisDetail) {
-        console.log(diagnosisDetail['F43.2'].name);
-    }
+
     useEffect(() => {
         const getDiagnoses = async () => {
             try {
@@ -78,20 +77,10 @@ const SinglePatientPage = () => {
                 </p>
                 <h3>entries</h3>
                 <div>
-                    {selectedPatient.entries.map((entry) => {
+                    {selectedPatient.entries.map((entry: Entry) => {
                         return (
                             <div key={entry.id}>
-                                {entry.date} {entry.description}
-                                <ul>
-                                    {entry.diagnosisCodes?.map((x) => {
-                                        return (
-                                            <li key={x}>
-                                                {x}{' '}
-                                                {diagnosisDetail[`${x}`].name}{' '}
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
+                                <EntryDetails entry={entry} />
                             </div>
                         );
                     })}
