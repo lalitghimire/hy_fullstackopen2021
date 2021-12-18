@@ -1,16 +1,30 @@
 import React from 'react';
-//import { useStateValue } from '../state';
+import { useStateValue } from '../state';
 import { Entry } from '../types';
 
 const EntryDetails = ({ entry }: { entry: Entry }) => {
     console.log('props for entrydetails', entry);
-    //const diagnosisDetail = useStateValue();
+    const [{ diagnosisDetail }] = useStateValue();
+
+    console.log('diagnoseis', diagnosisDetail);
+    const showDetailsOfCode = (x: string) => {
+        if (diagnosisDetail) {
+            return diagnosisDetail[x].name;
+        }
+    };
+
     return (
         <div>
             {entry.date} {entry.description}
             <ul>
                 {entry.diagnosisCodes?.map((x) => {
-                    return <li key={x}>{x}</li>;
+                    console.log('code is here', x);
+
+                    return (
+                        <li key={x}>
+                            {x} {showDetailsOfCode(x)}
+                        </li>
+                    );
                 })}
             </ul>
         </div>
