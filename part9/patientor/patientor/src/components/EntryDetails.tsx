@@ -89,6 +89,23 @@ const OccupationalHealthcareEntryDetails = ({
 const HealthCheckEntryDetails = ({ entry }: { entry: HealthCheckEntry }) => {
     const [{ diagnosisDetail }] = useStateValue();
 
+    // choose color of heart icon according rating type
+    const heartIconColor = (rating: number) => {
+        switch (rating) {
+            case 0:
+                return 'green';
+            case 1:
+                return 'yellow';
+            case 2:
+                return 'orange';
+            case 3:
+                return 'red';
+
+            default:
+                return 'blue';
+        }
+    };
+
     const showDetailsOfCode = (x: string) => {
         if (diagnosisDetail) {
             return diagnosisDetail[x].name;
@@ -114,6 +131,11 @@ const HealthCheckEntryDetails = ({ entry }: { entry: HealthCheckEntry }) => {
                                 );
                             })}
                         </ul>
+                        <Icon
+                            name='heart'
+                            size='large'
+                            color={heartIconColor(entry.healthCheckRating)}
+                        />
                     </Card.Description>
                 </Card.Content>
             </Card>
