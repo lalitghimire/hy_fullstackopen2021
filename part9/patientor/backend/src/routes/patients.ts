@@ -34,4 +34,16 @@ router.post('/', (req, res) => {
     }
 });
 
+router.post('/:id/entries', (req, res) => {
+    const patientId = req.params.id;
+    try {
+        const newEntry = req.body;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        const addedEntry = patientsService.addEntry(newEntry, patientId);
+        res.send(addedEntry);
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+
 export default router;
