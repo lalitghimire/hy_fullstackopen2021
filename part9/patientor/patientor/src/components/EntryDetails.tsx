@@ -133,7 +133,7 @@ const HealthCheckEntryDetails = ({ entry }: { entry: HealthCheckEntry }) => {
                         </ul>
                         <Icon
                             name='heart'
-                            size='large'
+                            size='big'
                             color={heartIconColor(entry.healthCheckRating)}
                         />
                     </Card.Description>
